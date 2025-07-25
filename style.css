@@ -41,6 +41,10 @@ nav {
     align-items: center;
 }
 
+.main-nav-links .submenu:hover .submenu-items {
+    display: block; /* Ou display: flex; */
+}
+
 /* Menu list */
 .menu {
     list-style-type: none;
@@ -161,6 +165,10 @@ nav {
         z-index: 99; /* Garante que fique acima de outros elementos */
         padding: 20px 0;
         align-items: center; /* Centraliza os itens verticalmente */
+    }
+
+.main-nav-links .submenu:hover .submenu-items {
+        display: block; /* ou display: flex; */
     }
 
     /* Mostra o menu quando ativo */

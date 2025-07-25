@@ -1,267 +1,304 @@
-// script.js (CORRIGIDO E OTIMIZADO)
-
 document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.querySelector('.hamburger');
     const mainNavLinks = document.querySelector('.main-nav-links');
     const submenuLinks = document.querySelectorAll('.submenu > a');
-
+    
     // 1. Lógica para o botão Hamburguer (abrir/fechar menu principal)
     hamburger.addEventListener('click', (event) => {
-    // Impede que este clique seja detectado pelo listener do 'document' imediatamente
-    event.stopPropagation(); 
-    
-    // Alterna a visibilidade do menu principal
-    mainNavLinks.classList.toggle('active');
+        event.stopPropagation(); // Impede que o clique no hamburger feche tudo imediatamente
+        mainNavLinks.classList.toggle('active');
 
-    // VERIFICAÇÃO ADICIONAL: Se o menu principal NÃO estiver mais ativo (ou seja, acabamos de fechá-lo)
-    if (!mainNavLinks.classList.contains('active')) {
-        // Então, fecha também qualquer submenu que por acaso estivesse aberto.
-        document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
-            submenu.classList.remove('active-submenu');
-        });
-    }
-});
+        // Se o menu principal foi fechado pelo clique no hamburger, fecha também qualquer submenu.
+        if (!mainNavLinks.classList.contains('active')) {
+            document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
+                submenu.classList.remove('active-submenu');
+            });
+        }
+    });
 
     // 2. Lógica para os cliques nos links de Submenu ("Nossos Serviços", "Blog")
     submenuLinks.forEach(link => {
         link.addEventListener('click', function(event) {
-            // Impede a navegação padrão e a propagação do clique
-            event.preventDefault();
-            event.stopPropagation();
+            event.preventDefault(); // Impede a navegação padrão do link
 
-            // O <li> pai do link clicado (ex: o <li> de "Nossos Serviços")
+            // Verifica o <li> pai do link clicado (o submenu)
             const clickedSubmenu = this.closest('.submenu');
-            // Verifica se o submenu que foi clicado já estava ativo
-            const wasActive = clickedSubmenu.classList.contains('active-submenu');
+            const isCurrentlyActive = clickedSubmenu.classList.contains('active-submenu'); // Estado ANTES deste clique
 
-            // --- Lógica Principal ---
-            // Primeiro, fecha TODOS os submenus que estiverem abertos.
+            // Fecha todos os outros submenus que estiverem abertos
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
-                submenu.classList.remove('active-submenu');
+                if (submenu !== clickedSubmenu) { // Fecha apenas os que não são o clicado
+                    submenu.classList.remove('active-submenu');
+                }
             });
 
-            // Se o submenu que clicamos NÃO estava ativo, nós o ativamos.
-            // Se ele já estava ativo, ele permanecerá fechado (efeito de toggle).
-            if (!wasActive) {
+            // Alterna o estado do submenu clicado
+            if (isCurrentlyActive) {
+                clickedSubmenu.classList.remove('active-submenu');
+            } else {
                 clickedSubmenu.classList.add('active-submenu');
             }
         });
     });
 
-    // 3. Lógica para fechar menus ao clicar em qualquer outro lugar da página
+    // 3. Lógica para fechar menus e submenus ao clicar em qualquer lugar da página, EXCETO DENTRO DELES.
     document.addEventListener('click', function(event) {
-        // Se o menu principal (hamburguer) estiver aberto e o clique for fora dele, fecha tudo.
-        if (mainNavLinks.classList.contains('active') && !mainNavLinks.contains(event.target)) {
+        const target = event.target;
+
+        // --- Lógica para o menu principal (hamburguer) ---
+        // Se o menu principal está ativo E o clique não foi dentro do menu principal (mainNavLinks)
+        // E o clique não foi no botão hamburguer, então fecha o menu principal.
+        if (mainNavLinks.classList.contains('active') &&
+            !mainNavLinks.contains(target) &&
+            !hamburger.contains(target)) {
             mainNavLinks.classList.remove('active');
+            // Fecha todos os submenus também ao fechar o menu principal
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
             });
         }
 
-        // Se o clique foi fora de qualquer item de submenu (<li>), fecha todos os submenus abertos.
-        // Isto funciona porque os cliques nos próprios links de submenu são parados pelo `stopPropagation`.
-        if (!event.target.closest('.submenu')) {
+        // --- Lógica para os submenus ("Nosso Serviços", "Blog") ---
+        // Se o clique NÃO foi dentro de um elemento com a classe 'submenu' (o <li> pai ou seus itens)
+        // E o clique NÃO foi no botão hamburguer (para não interferir com o menu principal)
+        // Então, fecha todos os submenus abertos.
+        // Esta lógica pega cliques FORA de QUALQUER submenu.
+        if (!target.closest('.submenu') && !hamburger.contains(target)) {
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
             });
         }
     });
 
-    // ... O restante do seu código JavaScript (carrossel, drag & drop) continua aqui ...
-    // Exemplo:
+    // --- Código do Carrossel (mantido intacto) ---
     let currentIndex = 0;
-    // etc...
-});
+    let slideInterval;
+    let animationFrameId = null;
+    const animationDuration = 500;
+    let startTime = null;
+    let startPosition = 0;
+    let endPosition = 0;
 
+    const carouselImages = document.querySelector('.carousel-images');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const totalOriginalSlides = 3;
 
-// ... Cole o resto do seu código original do carrossel aqui ...
-// (Todo o código de 'let currentIndex = 0;' em diante)
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
 
-let currentIndex = 0; // Índice do slide atual (0-based)
-let slideInterval;
-let animationFrameId = null;
-const animationDuration = 500; // Duração da animação em milissegundos
-let startTime = null;
-let startPosition = 0; // Posição de início da animação em %
-let endPosition = 0;   // Posição final da animação em %
-
-// Obter elementos do carrossel
-const carouselImages = document.querySelector('.carousel-images');
-const slides = document.querySelectorAll('.carousel-slide');
-const totalOriginalSlides = 3; // O número de slides REAIS que você tem (f1, f2, f3)
-const totalSlidesInDOM = slides.length; // O número total de slides no HTML, incluindo os duplicados
-
-// Variáveis para o arraste (touch/mouse)
-let isDragging = false;
-let startX = 0; // Posição X inicial do toque/mouse
-let currentTranslate = 0; // Posição de transformação atual durante o arraste
-let prevTranslate = 0; // Posição de transformação anterior para calcular o delta
-
-
-function startSlideShow() {
-    clearInterval(slideInterval);
-    slideInterval = setInterval(() => {
-        moveSlide(1); // Move para a próxima imagem
-    }, 5000); // 5 segundos de intervalo
-}
-
-function animateSlide(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / animationDuration, 1);
-
-    // Função de easing (ease-in-out)
-    const easedProgress = 0.5 - 0.5 * Math.cos(Math.PI * progress);
-
-    const currentAnimatedPosition = startPosition + (endPosition - startPosition) * easedProgress;
-    carouselImages.style.transform = `translateX(${currentAnimatedPosition}%)`;
-
-    if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animateSlide);
-    } else {
-        // Garante que a posição final seja exata
-        carouselImages.style.transform = `translateX(${endPosition}%)`;
-        startTime = null;
-        animationFrameId = null;
-
-        // *** Lógica para loop infinito APÓS a animação terminar ***
-        if (endPosition <= -(totalOriginalSlides * 100)) { // Se chegamos a um slide duplicado (f1, f2, etc. no final)
-            // "Teleporta" de volta para o slide original correspondente SEM ANIMAÇÃO
-            currentIndex = currentIndex % totalOriginalSlides; // Volta para o índice do slide original
-            carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
-            // Atualiza prevTranslate para a nova posição teleportada para evitar saltos no próximo arraste
-            prevTranslate = -currentIndex * 100;
-        } else if (endPosition > 0) { // Se fomos para a esquerda a partir do primeiro slide
-            // "Teleporta" para o slide duplicado correspondente no final antes de animar para ele
-            currentIndex = totalOriginalSlides - 1; // Ajusta para o último slide original
-            carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
-            prevTranslate = -currentIndex * 100;
-        }
-    }
-}
-
-
-function moveSlide(direction) {
-    // Parar qualquer animação em andamento antes de iniciar uma nova
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-        startTime = null; // Reseta o tempo para evitar saltos
+    function startSlideShow() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(() => {
+            moveSlide(1);
+        }, 5000);
     }
 
-    // Pega a posição inicial da animação
-    const currentTransform = window.getComputedStyle(carouselImages).transform;
-    let matrix = new WebKitCSSMatrix(currentTransform);
-    startPosition = matrix.m41 / carouselImages.offsetWidth * 100; // Converte px para %
+    function animateSlide(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const progress = Math.min(elapsed / animationDuration, 1);
 
-    let newIndex = currentIndex + direction;
+        const easedProgress = 0.5 - 0.5 * Math.cos(Math.PI * progress);
 
-    // Lógica para o loop infinito para a direita (continuo)
-    if (direction > 0) { // Indo para a direita (próximo slide)
-        // Se estamos no último slide original e vamos para o próximo, o alvo é o duplicado
-        if (newIndex >= totalOriginalSlides) {
-            // Permitimos que o índice vá além dos slides originais para usar os duplicados
-            // O "teleporte" de volta acontecerá APÓS a animação no animateSlide
-            endPosition = -newIndex * 100;
+        const currentAnimatedPosition = startPosition + (endPosition - startPosition) * easedProgress;
+        carouselImages.style.transform = `translateX(${currentAnimatedPosition}%)`;
+
+        if (progress < 1) {
+            animationFrameId = requestAnimationFrame(animateSlide);
         } else {
+            carouselImages.style.transform = `translateX(${endPosition}%)`;
+            startTime = null;
+            animationFrameId = null;
+
+            if (endPosition <= -(totalOriginalSlides * 100)) {
+                currentIndex = currentIndex % totalOriginalSlides;
+                carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
+                prevTranslate = -currentIndex * 100;
+            } else if (endPosition > 0) {
+                currentIndex = totalOriginalSlides - 1;
+                carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
+                prevTranslate = -currentIndex * 100;
+            }
+        }
+    }
+
+    function moveSlide(direction) {
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+            startTime = null;
+        }
+
+        const currentTransform = window.getComputedStyle(carouselImages).transform;
+        let matrix = new WebKitCSSMatrix(currentTransform);
+        startPosition = matrix.m41 / carouselImages.offsetWidth * 100;
+
+        let newIndex = currentIndex + direction;
+
+        if (direction > 0) {
+            if (newIndex >= totalOriginalSlides) {
+                endPosition = -newIndex * 100;
+            } else {
+                endPosition = -newIndex * 100;
+            }
+        } else {
+            if (newIndex < 0) {
+                currentIndex = totalOriginalSlides;
+                carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
+                startPosition = -currentIndex * 100;
+                newIndex = totalOriginalSlides - 1;
+            }
             endPosition = -newIndex * 100;
         }
-    } else { // Indo para a esquerda (slide anterior)
-        // Se estamos no primeiro slide original e vamos para o anterior
-        if (newIndex < 0) {
-            // Teleporta para o slide duplicado ANTES da animação
-            currentIndex = totalOriginalSlides; // Move para o primeiro slide duplicado que é visualmente o último slide original
-            carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
-            startPosition = -currentIndex * 100; // A animação começará desta posição teleportada
-            newIndex = totalOriginalSlides - 1; // O alvo agora é o último slide original
-        }
-        endPosition = -newIndex * 100;
-    }
 
-    currentIndex = newIndex; // Atualiza o currentIndex para o próximo ciclo
+        currentIndex = newIndex;
 
-    // Inicia a animação
-    animationFrameId = requestAnimationFrame(animateSlide);
-
-    // Reinicia o slideshow automático
-    startSlideShow();
-}
-
-
-// --- Funções para Arraste (Touch/Mouse) ---
-
-function addDragListeners() {
-    carouselImages.addEventListener('mousedown', dragStart);
-    carouselImages.addEventListener('mouseup', dragEnd);
-    carouselImages.addEventListener('mouseleave', dragEnd); // Se o mouse sair do carrossel durante o arraste
-    carouselImages.addEventListener('mousemove', drag);
-
-    carouselImages.addEventListener('touchstart', dragStart);
-    carouselImages.addEventListener('touchend', dragEnd);
-    carouselImages.addEventListener('touchmove', drag);
-
-    // Impede o arraste de imagens padrão
-    carouselImages.addEventListener('dragstart', (e) => e.preventDefault());
-}
-
-function getPositionX(event) {
-    return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
-}
-
-function dragStart(event) {
-    // Parar qualquer animação automática e em andamento
-    clearInterval(slideInterval);
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-        startTime = null;
-    }
-
-    isDragging = true;
-    startX = getPositionX(event);
-
-    // Captura a posição atual do carrossel para iniciar o arraste
-    const currentTransform = window.getComputedStyle(carouselImages).transform;
-    let matrix = new WebkitCSSMatrix(currentTransform);
-    prevTranslate = matrix.m41 / carouselImages.offsetWidth * 100; // Converte px para %
-}
-
-function drag(event) {
-    if (!isDragging) return;
-
-    // Previne o scroll da página durante o arraste horizontal do carrossel
-    event.preventDefault();
-
-    const currentX = getPositionX(event);
-    const deltaX = currentX - startX; // Diferença no arrasto
-
-    currentTranslate = prevTranslate + (deltaX / carouselImages.offsetWidth) * 100;
-    carouselImages.style.transform = `translateX(${currentTranslate}%)`;
-}
-
-function dragEnd() {
-    if (!isDragging) return;
-    isDragging = false;
-
-    // Calcular qual slide está mais próximo da posição atual
-    const movedBy = currentTranslate - prevTranslate; // Quanto foi arrastado em %
-    const slideWidthPercentage = 100; // Cada slide ocupa 100%
-
-    // Determinar a direção e o slide alvo
-    if (movedBy < -slideWidthPercentage / 4) { // Arrastou para a esquerda o suficiente
-        moveSlide(1); // Mover para o próximo slide
-    } else if (movedBy > slideWidthPercentage / 4) { // Arrastou para a direita o suficiente
-        moveSlide(-1); // Mover para o slide anterior
-    } else {
-        // Voltar para o slide atual se não arrastou o suficiente
-        // O currentIndex já deve estar correto para o slide atual visível
-        // ou o prevTranslate indica a posição do slide que estava visível antes do arraste
-        const currentSnapIndex = Math.round(-prevTranslate / 100);
-        currentIndex = currentSnapIndex; // Define o currentIndex para o slide em que estávamos antes de arrastar
-        // E dispara uma "animação" para voltar à posição correta, caso tenha arrastado um pouco
-        endPosition = -currentIndex * 100;
-        startPosition = currentTranslate; // Inicia a animação da posição onde soltou o arraste
         animationFrameId = requestAnimationFrame(animateSlide);
-        startSlideShow(); // Reinicia o auto-play
+        startSlideShow();
     }
-}
+
+    function addDragListeners() {
+        carouselImages.addEventListener('mousedown', dragStart);
+        carouselImages.addEventListener('mouseup', dragEnd);
+        carouselImages.addEventListener('mouseleave', dragEnd);
+        carouselImages.addEventListener('mousemove', drag);
+
+        carouselImages.addEventListener('touchstart', dragStart);
+        carouselImages.addEventListener('touchend', dragEnd);
+        carouselImages.addEventListener('touchmove', drag);
+
+        carouselImages.addEventListener('dragstart', (e) => e.preventDefault());
+    }
+
+    function getPositionX(event) {
+        return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+    }
+
+    function dragStart(event) {
+        clearInterval(slideInterval);
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+            startTime = null;
+        }
+
+        isDragging = true;
+        startX = getPositionX(event);
+
+        const currentTransform = window.getComputedStyle(carouselImages).transform;
+        let matrix = new WebKitCSSMatrix(currentTransform);
+        prevTranslate = matrix.m41 / carouselImages.offsetWidth * 100;
+    }
+
+    function drag(event) {
+        if (!isDragging) return;
+        event.preventDefault();
+
+        const currentX = getPositionX(event);
+        const deltaX = currentX - startX;
+
+        currentTranslate = prevTranslate + (deltaX / carouselImages.offsetWidth) * 100;
+        carouselImages.style.transform = `translateX(${currentTranslate}%)`;
+    }
+
+    function dragEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const movedBy = currentTranslate - prevTranslate;
+        const slideWidthPercentage = 100;
+
+        if (movedBy < -slideWidthPercentage / 4) {
+            moveSlide(1);
+        } else if (movedBy > slideWidthPercentage / 4) {
+            moveSlide(-1);
+        } else {
+            const currentSnapIndex = Math.round(-prevTranslate / 100);
+            currentIndex = currentSnapIndex;
+            endPosition = -currentIndex * 100;
+            startPosition = currentTranslate;
+            animationFrameId = requestAnimationFrame(animateSlide);
+            startSlideShow();
+        }
+    }
+
+    const prevButton = document.querySelector('.prev');
+    const nextButton = document.querySelector('.next');
+
+    if (prevButton) {
+        prevButton.addEventListener('click', () => moveSlide(-1));
+    }
+    if (nextButton) {
+        nextButton.addEventListener('click', () => moveSlide(1));
+    }
+
+    addDragListeners();
+    startSlideShow();
+
+    // --- Nova Lógica de Dropdowns (integração do código fornecido anteriormente) ---
+
+    let sitesAbertos = false;
+    let indiceAberto = false;
+
+    function exibeBusca() {
+        const formBusca = document.getElementById("formBusca");
+        const formBusca2 = document.getElementById("formBusca2");
+
+        if (formBusca) {
+            formBusca.style.display = 'none';
+        }
+        if (formBusca2) {
+            formBusca2.style.display = 'block';
+        }
+    }
+
+    function exibeSites() {
+        const sitesElement = document.getElementById("sites");
+        if (sitesElement) {
+            if (!sitesAbertos) {
+                sitesElement.style.display = 'block';
+                sitesAbertos = true;
+            } else {
+                sitesElement.style.display = 'none';
+                sitesAbertos = false;
+            }
+        }
+    }
+
+    function verIndice() {
+        const indiceAtualElement = document.getElementById("indiceAtual");
+        if (indiceAtualElement) {
+            if (!indiceAberto) {
+                indiceAtualElement.style.display = 'block';
+                indiceAberto = true;
+            } else {
+                indiceAtualElement.style.display = 'none';
+                indiceAberto = false;
+            }
+        }
+    }
+
+    // Listener de clique no documento para fechar os novos dropdowns também
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+
+        // Lógica para fechar 'sites'
+        const sitesButton = document.querySelector('[onclick="exibeSites()"]');
+        const sitesElement = document.getElementById("sites");
+        if (sitesAbertos && sitesElement && !sitesElement.contains(target) && (!sitesButton || !sitesButton.contains(target))) {
+            sitesElement.style.display = 'none';
+            sitesAbertos = false;
+        }
+
+        // Lógica para fechar 'indiceAtual'
+        const indiceButton = document.querySelector('[onclick="verIndice()"]');
+        const indiceAtualElement = document.getElementById("indiceAtual");
+        if (indiceAberto && indiceAtualElement && !indiceAtualElement.contains(target) && (!indiceButton || !indiceButton.contains(target))) {
+            indiceAtualElement.style.display = 'none';
+            indiceAberto = false;
+        }
+    });
+
+});

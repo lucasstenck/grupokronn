@@ -209,10 +209,6 @@ nav {
         width: 100%;
         text-align: center;
     }
-
-    .submenu:hover .submenu-items {
-        display: none; /* Desativa o hover em mobile para evitar comportamento indesejado */
-    }
     
 }
 

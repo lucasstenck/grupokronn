@@ -1,62 +1,71 @@
-function toggleMenu() {
-    document.querySelector('.main-nav-links').classList.toggle('active');
-}
+// script.js (CORRIGIDO E OTIMIZADO)
 
-// Função para alternar submenus
 document.addEventListener('DOMContentLoaded', () => {
-    // Adiciona event listener para os submenus
-    const submenuParents = document.querySelectorAll('.submenu > a'); // Seleciona apenas os links diretos dentro de .submenu
+    const hamburger = document.querySelector('.hamburger');
+    const mainNavLinks = document.querySelector('.main-nav-links');
+    const submenuLinks = document.querySelectorAll('.submenu > a');
 
-    submenuParents.forEach(link => {
+    // 1. Lógica para o botão Hamburguer (abrir/fechar menu principal)
+    hamburger.addEventListener('click', (event) => {
+        // Impede que este clique seja detectado pelo listener do 'document' imediatamente
+        event.stopPropagation(); 
+        mainNavLinks.classList.toggle('active');
+    });
+
+    // 2. Lógica para os cliques nos links de Submenu ("Nossos Serviços", "Blog")
+    submenuLinks.forEach(link => {
         link.addEventListener('click', function(event) {
-            // Previne o comportamento padrão do link (ir para #)
+            // Impede a navegação padrão e a propagação do clique
             event.preventDefault();
+            event.stopPropagation();
 
-            // Encontra o elemento pai <li>.submenu
-            const parentSubmenu = this.closest('.submenu');
+            // O <li> pai do link clicado (ex: o <li> de "Nossos Serviços")
+            const clickedSubmenu = this.closest('.submenu');
+            // Verifica se o submenu que foi clicado já estava ativo
+            const wasActive = clickedSubmenu.classList.contains('active-submenu');
 
-            // Verifica se está em modo mobile (media query)
-            if (window.matchMedia("(max-width: 768px)").matches) {
-                // Fecha qualquer outro submenu aberto antes de abrir este
-                document.querySelectorAll('.submenu.active-submenu').forEach(otherSubmenu => {
-                    if (otherSubmenu !== parentSubmenu) { // Não fechar o próprio submenu
-                        otherSubmenu.classList.remove('active-submenu');
-                    }
-                });
-                
-                // Alterna a classe 'active-submenu' no <li>.submenu
-                parentSubmenu.classList.toggle('active-submenu');
-            } else {
-                // Em telas maiores, o hover já cuida do submenu, então não fazemos nada
+            // --- Lógica Principal ---
+            // Primeiro, fecha TODOS os submenus que estiverem abertos.
+            document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
+                submenu.classList.remove('active-submenu');
+            });
+
+            // Se o submenu que clicamos NÃO estava ativo, nós o ativamos.
+            // Se ele já estava ativo, ele permanecerá fechado (efeito de toggle).
+            if (!wasActive) {
+                clickedSubmenu.classList.add('active-submenu');
             }
         });
     });
 
-    // Código para fechar o menu ao clicar fora
+    // 3. Lógica para fechar menus ao clicar em qualquer outro lugar da página
     document.addEventListener('click', function(event) {
-        const mainNavLinks = document.querySelector('.main-nav-links');
-        const hamburger = document.querySelector('.hamburger');
-
-        // Verifica se o clique não foi dentro do menu ou no hambúrguer
-        if (!mainNavLinks.contains(event.target) && !hamburger.contains(event.target) && mainNavLinks.classList.contains('active')) {
-            mainNavLinks.classList.remove('active'); // Fecha o menu principal
-
-            // Fecha todos os submenus abertos também
+        // Se o menu principal (hamburguer) estiver aberto e o clique for fora dele, fecha tudo.
+        if (mainNavLinks.classList.contains('active') && !mainNavLinks.contains(event.target)) {
+            mainNavLinks.classList.remove('active');
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
             });
         }
-         // Fecha submenus ao clicar fora deles, mesmo se o menu principal não estiver aberto
-        const clickedInsideSubmenu = event.target.closest('.submenu');
-        document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
-            if (!clickedInsideSubmenu || !submenu.contains(clickedInsideSubmenu)) {
+
+        // Se o clique foi fora de qualquer item de submenu (<li>), fecha todos os submenus abertos.
+        // Isto funciona porque os cliques nos próprios links de submenu são parados pelo `stopPropagation`.
+        if (!event.target.closest('.submenu')) {
+            document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
-            }
-        });
+            });
+        }
     });
 
-    // ... restante do seu código JavaScript (carrossel, drag & drop) ...
+    // ... O restante do seu código JavaScript (carrossel, drag & drop) continua aqui ...
+    // Exemplo:
+    let currentIndex = 0;
+    // etc...
 });
+
+
+// ... Cole o resto do seu código original do carrossel aqui ...
+// (Todo o código de 'let currentIndex = 0;' em diante)
 
 let currentIndex = 0; // Índice do slide atual (0-based)
 let slideInterval;

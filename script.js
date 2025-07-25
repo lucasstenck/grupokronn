@@ -46,8 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = event.target;
 
         // --- Lógica para o menu principal (hamburguer) ---
-        // Se o menu principal está ativo E o clique não foi dentro do menu principal (mainNavLinks)
-        // E o clique não foi no botão hamburguer, então fecha o menu principal.
         if (mainNavLinks.classList.contains('active') &&
             !mainNavLinks.contains(target) &&
             !hamburger.contains(target)) {

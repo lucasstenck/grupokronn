@@ -3,12 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainNavLinks = document.querySelector('.main-nav-links');
     const submenuLinks = document.querySelectorAll('.submenu > a');
 
-    // 1. Lógica para o botão Hamburguer (abrir/fechar menu principal)
     hamburger.addEventListener('click', (event) => {
-        event.stopPropagation(); // Impede que o clique no hamburger feche tudo imediatamente
+        event.stopPropagation();
         mainNavLinks.classList.toggle('active');
-
-        // Se o menu principal foi fechado pelo clique no hamburger, fecha também qualquer submenu.
         if (!mainNavLinks.classList.contains('active')) {
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
@@ -16,23 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. Lógica para os cliques nos links de Submenu ("Nossos Serviços", "Blog")
     submenuLinks.forEach(link => {
         link.addEventListener('click', function(event) {
-            event.preventDefault(); // Impede a navegação padrão do link
-
-            // Verifica o <li> pai do link clicado (o submenu)
+            event.preventDefault();
             const clickedSubmenu = this.closest('.submenu');
-            const isCurrentlyActive = clickedSubmenu.classList.contains('active-submenu'); // Estado ANTES deste clique
-
-            // Fecha todos os outros submenus que estiverem abertos
+            const isCurrentlyActive = clickedSubmenu.classList.contains('active-submenu');
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
-                if (submenu !== clickedSubmenu) { // Fecha apenas os que não são o clicado
+                if (submenu !== clickedSubmenu) {
                     submenu.classList.remove('active-submenu');
                 }
             });
-
-            // Alterna o estado do submenu clicado
             if (isCurrentlyActive) {
                 clickedSubmenu.classList.remove('active-submenu');
             } else {
@@ -41,26 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Lógica para fechar menus e submenus ao clicar em qualquer lugar da página, EXCETO DENTRO DELES.
     document.addEventListener('click', function(event) {
         const target = event.target;
-
-        // --- Lógica para o menu principal (hamburguer) ---
         if (mainNavLinks.classList.contains('active') &&
             !mainNavLinks.contains(target) &&
             !hamburger.contains(target)) {
             mainNavLinks.classList.remove('active');
-            // Fecha todos os submenus também ao fechar o menu principal
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
             });
         }
-
-        // --- Lógica para os submenus ("Nosso Serviços", "Blog") ---
-        // Se o clique NÃO foi dentro de um elemento com a classe 'submenu' (o <li> pai ou seus itens)
-        // E o clique NÃO foi no botão hamburguer (para não interferir com o menu principal)
-        // Então, fecha todos os submenus abertos.
-        // Esta lógica pega cliques FORA de QUALQUER submenu.
         if (!target.closest('.submenu') && !hamburger.contains(target)) {
             document.querySelectorAll('.submenu.active-submenu').forEach(submenu => {
                 submenu.classList.remove('active-submenu');
@@ -68,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Código do Carrossel (mantido intacto) ---
     let currentIndex = 0;
     let slideInterval;
     let animationFrameId = null;
@@ -97,19 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
         const progress = Math.min(elapsed / animationDuration, 1);
-
         const easedProgress = 0.5 - 0.5 * Math.cos(Math.PI * progress);
-
         const currentAnimatedPosition = startPosition + (endPosition - startPosition) * easedProgress;
         carouselImages.style.transform = `translateX(${currentAnimatedPosition}%)`;
-
         if (progress < 1) {
             animationFrameId = requestAnimationFrame(animateSlide);
         } else {
             carouselImages.style.transform = `translateX(${endPosition}%)`;
             startTime = null;
             animationFrameId = null;
-
             if (endPosition <= -(totalOriginalSlides * 100)) {
                 currentIndex = currentIndex % totalOriginalSlides;
                 carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -162,11 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
         carouselImages.addEventListener('mouseup', dragEnd);
         carouselImages.addEventListener('mouseleave', dragEnd);
         carouselImages.addEventListener('mousemove', drag);
-
         carouselImages.addEventListener('touchstart', dragStart);
         carouselImages.addEventListener('touchend', dragEnd);
         carouselImages.addEventListener('touchmove', drag);
-
         carouselImages.addEventListener('dragstart', (e) => e.preventDefault());
     }
 
@@ -193,10 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function drag(event) {
         if (!isDragging) return;
         event.preventDefault();
-
         const currentX = getPositionX(event);
         const deltaX = currentX - startX;
-
         currentTranslate = prevTranslate + (deltaX / carouselImages.offsetWidth) * 100;
         carouselImages.style.transform = `translateX(${currentTranslate}%)`;
     }
@@ -234,8 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addDragListeners();
     startSlideShow();
-
-    // --- Nova Lógica de Dropdowns (integração do código fornecido anteriormente) ---
 
     let sitesAbertos = false;
     let indiceAberto = false;
@@ -278,19 +247,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Listener de clique no documento para fechar os novos dropdowns também
     document.addEventListener('click', (event) => {
         const target = event.target;
-
-        // Lógica para fechar 'sites'
         const sitesButton = document.querySelector('[onclick="exibeSites()"]');
         const sitesElement = document.getElementById("sites");
         if (sitesAbertos && sitesElement && !sitesElement.contains(target) && (!sitesButton || !sitesButton.contains(target))) {
             sitesElement.style.display = 'none';
             sitesAbertos = false;
         }
-
-        // Lógica para fechar 'indiceAtual'
         const indiceButton = document.querySelector('[onclick="verIndice()"]');
         const indiceAtualElement = document.getElementById("indiceAtual");
         if (indiceAberto && indiceAtualElement && !indiceAtualElement.contains(target) && (!indiceButton || !indiceButton.contains(target))) {
@@ -298,5 +262,4 @@ document.addEventListener('DOMContentLoaded', () => {
             indiceAberto = false;
         }
     });
-
 });

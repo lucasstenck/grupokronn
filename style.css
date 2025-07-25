@@ -1,55 +1,46 @@
-/* style.css */
-/* Reset styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body and general styling */
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
 }
 
-/* Header styles */
 header {
     background-color: #ffffff;
-    padding: 19px 10px; /* AJUSTADO: Reduzido o padding horizontal para as divs laterais ficarem mais no canto */
+    padding: 19px 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo styling */
 .logo img {
     width: 150px;
     height: auto;
 }
 
-/* Navigation menu container */
 nav {
     display: flex;
-    justify-content: space-between; /* Distribui logo, menu e botão igualmente */
-    align-items: center; /* Alinha verticalmente */
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    max-width: 1800px; /* AJUSTADO: Limita a largura máxima da nav para centralizar e permitir que as laterais cheguem mais perto das bordas */
-    margin: 0 auto; /* Centraliza a nav na página */
+    max-width: 1800px;
+    margin: 0 auto;
 }
 
-/* Container para os links principais do menu */
 .main-nav-links {
     display: flex;
     align-items: center;
 }
 
-/* Menu list */
 .menu {
     list-style-type: none;
-    display: flex; /* Alinha os itens do menu horizontalmente */
-    gap: 30px; /* AJUSTADO: Aumentado o espaçamento entre os itens do menu */
-    align-items: center; /* Alinha verticalmente os itens do menu */
+    display: flex;
+    gap: 30px;
+    align-items: center;
 }
 
-/* Menu links */
 .menu a {
     text-decoration: none;
     color: #333;
@@ -58,7 +49,6 @@ nav {
     display: block;
 }
 
-/* Submenu container */
 .submenu {
     position: relative;
 }
@@ -72,12 +62,8 @@ nav {
     list-style-type: none;
     padding: 10px 0;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    z-index: 100; /* Garante que o submenu fique acima de outros elementos */
-    min-width: 220px; /* Largura mínima para o submenu */
-}
-
-.submenu .submenu-items {
-    display: none;
+    z-index: 100;
+    min-width: 220px;
 }
 
 .submenu.active-submenu .submenu-items {
@@ -91,23 +77,20 @@ nav {
 .submenu-items li a {
     color: #333;
     font-size: 14px;
-    white-space: nowrap; /* Evita quebra de linha em itens longos do submenu */
+    white-space: nowrap;
 }
 
-/* Submenu arrow */
 .arrow {
     margin-left: 5px;
 }
 
-/* Client access button wrapper */
 .client-access-wrapper {
     display: flex;
     align-items: center;
 }
 
-/* Client access button */
 .client-access {
-    list-style-type: none; /* Remove o ponto da lista */
+    list-style-type: none;
 }
 
 .client-access a {
@@ -117,10 +100,9 @@ nav {
     border-radius: 25px;
     font-size: 17px;
     text-decoration: none;
-    white-space: nowrap; /* Evita quebra de linha no botão */
+    white-space: nowrap;
 }
 
-/* Hover effects */
 .menu a:hover, .submenu-items li a:hover {
     background-color: #f1f1f1;
     color: #0073e6;
@@ -130,182 +112,161 @@ nav {
     background-color: #005bb5;
 }
 
-/* Hamburger button (invisível em desktop) */
 .hamburger {
-    display: none; /* Esconde o botão de hambúrguer por padrão em telas maiores */
+    display: none;
     cursor: pointer;
     font-size: 30px;
     color: #333;
 }
 
+
 @media (min-width: 769px) and (max-width: 1135px) {
-    /* Esconde o hambúrguer nessa faixa */
     .hamburger {
         display: none;
     }
 
-    /* Ajustes para o container principal da navegação */
     nav {
-        display: flex; /* Garante que 'nav' seja um container flex */
-        flex-direction: column; /* ALTERADO: Organiza logo, menu e botão em coluna */
-        align-items: center; /* Centraliza horizontalmente os itens filhos de 'nav' */
-        gap: 15px; /* Adiciona espaçamento vertical entre os filhos diretos de 'nav' */
-
-        padding: 0 15px; /* Adiciona um padding lateral para não colar nas bordas */
-        max-width: 100%; /* Garante que não exceda a largura da viewport */
-        box-sizing: border-box; /* Inclui padding na largura total */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 0 15px;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
-    /* Ajuste para o container do logo, para que o logo possa ser centralizado */
     .nav-left {
-        width: 100%; /* Ocupa a largura total para ajudar na centralização do logo */
-        text-align: center; /* Centraliza o logo dentro de nav-left */
+        width: 100%;
+        text-align: center;
     }
 
-    /* Exibe o menu principal */
     .main-nav-links {
-        display: flex; /* Garante que o menu principal seja flexível */
-        flex-direction: column; /* ALTERADO: Itens do menu principal agora em coluna */
-        position: static; /* Remove o posicionamento absoluto do mobile */
-        width: 100%; /* Ocupa a largura total disponível dentro do 'nav' */
-        background-color: transparent; /* Remove o fundo branco e sombra do mobile */
+        display: flex;
+        flex-direction: column;
+        position: static;
+        width: 100%;
+        background-color: transparent;
         box-shadow: none;
         z-index: auto;
-        padding: 10px 0; /* Adiciona um pequeno padding vertical */
-        align-items: center; /* Centraliza os itens do menu (ul.menu) horizontalmente */
-        flex-grow: 0; /* Não cresce desnecessariamente */
-        justify-content: center; /* Centraliza o conteúdo do menu na área disponível */
-        flex-shrink: 1; /* Permite que o menu encolha se precisar */
-        min-width: 0; /* Importante para flex-items em contêineres flexíveis */
-        overflow-x: hidden; /* Garante que nada vaze horizontalmente do container principal do menu */
+        padding: 10px 0;
+        align-items: center;
+        flex-grow: 0;
+        justify-content: center;
+        flex-shrink: 1;
+        min-width: 0;
+        overflow-x: hidden;
     }
 
-    /* Força a remoção da classe 'active' se ela estiver presente por algum motivo */
     .main-nav-links.active {
-        display: flex; /* Apenas para garantir que não haja conflito */
+        display: flex;
     }
 
-    /* Ajusta o espaçamento dos itens do menu */
     .menu {
-        flex-direction: column; /* ALTERADO: Itens da lista (li) agora em coluna */
-        gap: 5px; /* Espaçamento menor entre os itens do menu (agora empilhados) */
-        width: 100%; /* Ocupa a largura total para que os links se centralizem */
-        flex-wrap: nowrap; /* Impede que os itens do menu quebrem (redundante com column, mas bom manter) */
-        overflow-x: hidden; /* Impede rolagem horizontal para o menu individual */
-        padding: 0; /* Remove padding extra */
-        list-style: none; /* Garante que não apareçam marcadores de lista */
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: hidden;
+        padding: 0;
+        list-style: none;
     }
 
-    /* Remove as barras de rolagem se houverem */
     .menu::-webkit-scrollbar {
         display: none;
     }
     .menu {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
-    /* Ajusta o padding dos links do menu */
     .menu a {
-        padding: 8px 0; /* Ajusta o padding para os links empilhados */
-        font-size: 15px; /* Mantém um tamanho de fonte legível */
-        white-space: nowrap; /* Impede que o texto quebre dentro do link */
-        text-align: center; /* Centraliza o texto dentro de cada link */
-        width: 100%; /* Faz o link ocupar a largura total do item */
-        display: block; /* Garante que o padding e width funcionem corretamente */
+        padding: 8px 0;
+        font-size: 15px;
+        white-space: nowrap;
+        text-align: center;
+        width: 100%;
+        display: block;
     }
 
-    /* Garante que o submenu continue escondido por padrão e só apareça com a classe */
     .submenu .submenu-items {
         display: none;
-        position: static; /* ALTERADO: Posicionamento estático em coluna para submenus */
-        width: 100%; /* Ocupa a largura total do item pai */
-        background-color: #f9f9f9; /* Um fundo ligeiramente diferente para subitens */
-        box-shadow: none; /* Remove sombra para submenus internos */
-        padding: 5px 0; /* Padding interno para subitens */
-        list-style: none; /* Remove marcadores de lista para submenus */
-        text-align: left; /* Alinha o texto do submenu à esquerda */
+        position: static;
+        width: 100%;
+        background-color: #f9f9f9;
+        box-shadow: none;
+        padding: 5px 0;
+        list-style: none;
+        text-align: left;
     }
 
-    /* Submenu visível apenas com a classe active-submenu (controle por clique/JS) */
     .submenu.active-submenu .submenu-items {
         display: block;
     }
     .submenu.active-submenu .submenu-items li a {
-        padding-left: 25px; /* Indenta os itens do submenu para mostrar que são sub-itens */
-        text-align: left; /* Garante alinhamento à esquerda para sub-itens */
-        font-size: 14px; /* Ajusta tamanho da fonte dos sub-itens */
+        padding-left: 25px;
+        text-align: left;
+        font-size: 14px;
     }
 
-
-    /* Ajusta o botão de acesso ao cliente */
     .client-access-wrapper {
-        margin-top: 15px; /* Adiciona uma margem superior para separar do menu */
-        width: 100%; /* Ocupa a largura total */
-        display: flex; /* Torna-o um container flex para centralizar o botão */
-        justify-content: center; /* Centraliza o botão */
-        flex-shrink: 0; /* Impede que o botão encolha */
-        padding: 0; /* Remove padding extra */
+        margin-top: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-shrink: 0;
+        padding: 0;
     }
 
     .client-access {
-        padding: 0; /* Remove padding da UL */
-        list-style: none; /* Remove marcadores de lista */
-        width: 100%; /* Ocupa a largura total para que o botão possa ser centralizado */
-        text-align: center; /* Centraliza o conteúdo da UL */
+        padding: 0;
+        list-style: none;
+        width: 100%;
+        text-align: center;
     }
 
     .client-access a {
-        padding: 10px 20px; /* Ajusta o padding do botão para ser mais visível */
-        font-size: 16px; /* Ajusta a fonte do botão */
-        white-space: nowrap; /* Impede que o texto do botão quebre */
-        display: inline-block; /* Permite que o padding e width funcionem, mas não ocupe 100% da largura do pai */
-        max-width: 90%; /* Limita a largura máxima do botão para não vazar */
+        padding: 10px 20px;
+        font-size: 16px;
+        white-space: nowrap;
+        display: inline-block;
+        max-width: 90%;
     }
 }
-
-
 
 @media (min-width: 1100px) {
     .submenu:hover .submenu-items {
-        display: block; /* Exibe o submenu no hover */
+        display: block;
     }
-
-    
 }
 
-/* Mobile design (Aplica-se a telas com largura máxima de 768px) */
 @media (max-width: 768px) {
-    /* Mostra o botão de hambúrguer */
     .hamburger {
-        display: flex; /* Mostra o hambúrguer em mobile */
-        margin-left: auto; /* Empurra para a direita */
+        display: flex;
+        margin-left: auto;
     }
 
-    /* Esconde os links principais do menu por padrão em mobile */
     .main-nav-links {
-        display: none; /* ESCONDE POR PADRÃO */
-        flex-direction: column; /* Itens do menu empilhados verticalmente */
-        width: 100%; /* Ocupa a largura total */
-        position: absolute; /* Posição absoluta para sobrepor o conteúdo */
-        top: 80px; /* Ajusta para abaixo do header (altura do header + padding) */
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 80px;
         left: 0;
         background-color: #ffffff;
         box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-        z-index: 99; /* Garante que fique acima de outros elementos */
+        z-index: 99;
         padding: 20px 0;
-        align-items: center; /* Centraliza os itens verticalmente */
+        align-items: center;
     }
 
-    /* Mostra o menu quando ativo */
-    .main-nav-links.active { /* A classe 'active' será adicionada pelo JavaScript */
-        display: flex; /* MOSTRA QUANDO A CLASSE 'ACTIVE' ESTÁ PRESENTE */
+    .main-nav-links.active {
+        display: flex;
     }
 
     .menu {
         flex-direction: column;
         width: 100%;
-        gap: 10px; /* Reduz o espaçamento em mobile */
+        gap: 10px;
     }
 
     .menu li {
@@ -313,39 +274,36 @@ nav {
         text-align: center;
     }
 
-     .submenu.active-submenu .submenu-items {
-        display: block; /* Mostra o submenu quando a classe 'active-submenu' está no pai */
+    .submenu.active-submenu .submenu-items {
+        display: block;
     }
 
-    /* Ajustes para submenus em mobile */
-   .submenu .submenu-items {
-        position: static; /* Remove o posicionamento absoluto em mobile */
-        width: 100%; /* Ocupa a largura total do menu pai */
-        box-shadow: none; /* Remove sombra para submenus em mobile */
-        background-color: #f9f9f9; /* Fundo ligeiramente diferente para subitens */
-        padding: 0; /* Remove padding extra */
-        display: none; /* Escondido por padrão, apenas JS vai mostrar */
+    .submenu .submenu-items {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        background-color: #f9f9f9;
+        padding: 0;
+        display: none;
     }
 
     .submenu-items li a {
-        padding: 8px 0; /* Ajusta padding para links de subitem */
-        font-size: 13px; /* Ajusta fonte do subitem */
+        padding: 8px 0;
+        font-size: 13px;
     }
 
-    /* Em mobile, o botão de acesso ao cliente também deve estar dentro do menu vertical */
     .client-access-wrapper {
-        margin-top: 15px; /* Adiciona margem superior para separar do menu */
+        margin-top: 15px;
         width: 100%;
-        justify-content: center; /* Centraliza o botão em mobile */
+        justify-content: center;
     }
 
     .client-access {
         width: 100%;
         text-align: center;
     }
-    
-    
 }
+
 
 
 #carousel {
@@ -359,27 +317,24 @@ nav {
     display: flex;
 }
 
-/* Estilo para as imagens do carrossel */
 .carousel-images {
     display: flex;
-    width: 300%; /* Ajustado para exibir 3 imagens por vez */
-    cursor: grab; /* Adiciona o cursor de mão aberta */
+    width: 300%;
+    cursor: grab;
 }
 
 .carousel-images:active {
-    cursor: grabbing; /* Opcional: muda para mão fechada quando clicado/arrastando */
+    cursor: grabbing;
 }
 
-/* Estilo das imagens */
 .carousel-slide {
     width: 100%;
     height: 100vh;
     background-size: cover;
     background-position: center;
-    flex-shrink: 0; /* Impede que as imagens encolham */
+    flex-shrink: 0;
 }
 
-/* Estilos dos botões de navegação */
 button {
     position: absolute;
     top: 50%;
@@ -404,44 +359,42 @@ button:hover {
     right: 10px;
 }
 
-/* Responsividade para telas menores */
 @media (max-width: 768px) {
     #carousel {
-        height: 60vh; /* Ajusta a altura para caber melhor em telas pequenas */
+        height: 60vh;
     }
 
     .carousel-images {
-        width: 300%; /* Para 3 imagens, podemos continuar com a mesma proporção */
+        width: 300%;
     }
 
     .carousel-slide {
-        height: 60vh; /* Ajusta a altura das imagens */
+        height: 60vh;
     }
 
     button {
-        padding: 10px; /* Ajusta o tamanho dos botões em telas menores */
+        padding: 10px;
     }
 }
 
 @media (max-width: 480px) {
     #carousel {
-        height: 50vh; /* Ajusta ainda mais a altura para telas muito pequenas */
+        height: 50vh;
     }
 
     .carousel-images {
-        width: 300%; /* Para 3 imagens ainda */
+        width: 300%;
     }
 
     .carousel-slide {
-        height: 50vh; /* Ajusta a altura das imagens */
+        height: 50vh;
     }
 
     button {
-        padding: 8px; /* Reduz o tamanho dos botões para telas muito pequenas */
+        padding: 8px;
     }
 }
 
-/* --- Nova Seção de Serviços --- */
 #services-section {
     padding: 60px 20px;
     text-align: center;
@@ -457,135 +410,129 @@ button:hover {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout responsivo de grid */
-    gap: 30px; /* Espaçamento entre os itens */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
     max-width: 1200px;
-    margin: 0 auto; /* Centraliza o grid */
+    margin: 0 auto;
 }
 
 .service-item {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-decoration: none; /* Remove sublinhado do link */
+    text-decoration: none;
     color: #333;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave para hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 25px; /* Aumentado para dar mais espaço vertical ao bloco */
-    overflow: hidden; /* Garante que a imagem não vaze */
+    padding-bottom: 25px;
+    overflow: hidden;
 }
 
 .service-item:hover {
-    transform: translateY(-10px); /* Levanta o item no hover */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Sombra mais intensa no hover */
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .service-image {
-    width: 100%; /* Imagem ocupa a largura total do item */
-    height: 300px; /* **Altura aumentada para as imagens em telas maiores** */
+    width: 100%;
+    height: 300px;
     background-size: cover;
     background-position: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    margin-bottom: 15px; /* Espaço entre imagem e título */
-    transition: transform 0.5s ease-in-out; /* Transição para o efeito de zoom na imagem */
+    margin-bottom: 15px;
+    transition: transform 0.5s ease-in-out;
 }
 
 .service-item:hover .service-image {
-    transform: scale(1.05); /* Zoom na imagem no hover */
+    transform: scale(1.05);
 }
 
 .service-item h3 {
     font-size: 1.4em;
-    margin: 0 15px; /* Margem horizontal para o título */
+    margin: 0 15px;
     line-height: 1.3;
-    min-height: 3.9em; /* Garante que títulos com 2 ou 3 linhas ocupem o mesmo espaço */
-    display: flex; /* Para centralizar verticalmente se necessário */
-    align-items: center; /* Para centralizar verticalmente */
-    justify-content: center; /* Para centralizar horizontalmente */
+    min-height: 3.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
 }
 
-
-/* --- Adaptações para a Nova Seção de Serviços no Mobile --- */
 @media (max-width: 768px) {
     #services-section {
-        padding: 40px 15px; /* Reduz o padding para mobile */
+        padding: 40px 15px;
     }
 
     #services-section h2 {
-        font-size: 2em; /* Reduz o tamanho do título principal */
+        font-size: 2em;
         margin-bottom: 30px;
     }
 
     .services-grid {
-        grid-template-columns: 1fr; /* Uma coluna por item em telas pequenas */
-        gap: 20px; /* Reduz o espaçamento */
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .service-item {
-        margin: 0 auto; /* Centraliza o item */
-        max-width: 300px; /* Limita a largura máxima do item para não ficar muito largo */
+        margin: 0 auto;
+        max-width: 300px;
     }
 
     .service-image {
-        height: 200px; /* **Altura aumentada para as imagens em mobile** */
+        height: 200px;
     }
 
     .service-item h3 {
-        font-size: 1.2em; /* Reduz o tamanho da fonte do título do serviço */
-        min-height: auto; /* Remove a altura mínima forçada para títulos */
+        font-size: 1.2em;
+        min-height: auto;
         margin: 0 10px;
     }
 }
 
-/* --- Nova Seção de Banner com uma Imagem --- */
 #banner-section {
-    text-align: center; /* Centraliza o conteúdo dentro da seção */
-    padding: 20px; /* Adiciona um padding geral para espaço interno */
-    margin-top: 50px; /* Margem no topo para espaçamento da seção anterior */
-    margin-bottom: 50px; /* Margem na parte inferior para espaçamento da próxima seção */
-    background-color: #f5f5f5; /* Garante que o fundo seja o mesmo da página */
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: #f5f5f5;
 }
 
 .banner-image-link {
-    display: block; /* Faz com que o link se comporte como um bloco para centralização e largura */
-    max-width: 900px; /* Limita a largura máxima da imagem para não ser muito grande em telas largas */
-    margin: 0 auto; /* Centraliza o bloco do link (e, portanto, a imagem) horizontalmente */
-    overflow: hidden; /* Garante que a borda arredondada funcione corretamente */
-
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: hidden;
 }
 
 .banner-image-link:hover {
-    transform: translateY(-5px); /* Efeito de "levantar" o banner no hover */
+    transform: translateY(-5px);
 }
 
 .banner-image-link img {
-    width: 100%; /* Faz a imagem preencher a largura total do seu contêiner (o link) */
-    height: auto; /* Mantém a proporção da imagem para evitar distorção */
-    display: block; /* Remove o espaço extra que navegadores podem adicionar abaixo de imagens */
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-/* --- Adaptações para a Nova Seção de Banner no Mobile --- */
 @media (max-width: 768px) {
     #banner-section {
-        padding: 20px 10px; /* Reduz o padding horizontal no mobile */
-        margin-top: 30px; /* Menos margem superior no mobile */
-        margin-bottom: 30px; /* Menos margem inferior no mobile */
+        padding: 20px 10px;
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
 
     .banner-image-link {
-        border-radius: 5px; /* Reduz ligeiramente o arredondamento da borda no mobile */
+        border-radius: 5px;
     }
 }
 
-/* --- Nova Seção de Imagem Única --- */
 #single-image-section {
     width: 100%;
     padding: 0;
-    margin: 0; /* Alterado de '60px 0' para '0' para remover o espaçamento inferior e superior dessa seção */
+    margin: 0;
     background-color: #f5f5f5;
     overflow: hidden;
 }
@@ -598,10 +545,9 @@ button:hover {
     box-shadow: none;
 }
 
-/* --- Adaptações para a Nova Seção de Imagem Única no Mobile --- */
 @media (max-width: 768px) {
     #single-image-section {
-        margin: 0; /* Alterado de '40px 0' para '0' para remover o espaçamento inferior e superior dessa seção em mobile */
+        margin: 0;
     }
 
     #single-image-section img {
@@ -609,117 +555,113 @@ button:hover {
     }
 }
 
-
-/* --- FOOTER --- */
 #main-footer {
     background-color: #2e3639;
     color: #e0e0e0;
     padding: 40px 20px 20px;
     font-family: Arial, sans-serif;
     text-align: center;
-    margin-top: 0; /* Adicionado ou alterado para 0 para remover o espaçamento superior do footer */
+    margin-top: 0;
 }
 
-/* --- FOOTER --- */
 #main-footer {
-    background-color: #2e3639; /* Cor de fundo escura conforme a imagem */
-    color: #e0e0e0; /* Cor do texto claro */
-    padding: 40px 20px 20px; /* Padding interno: topo, laterais, inferior */
-    font-family: Arial, sans-serif; /* Fonte para o footer */
-    text-align: center; /* Centraliza o texto por padrão, ajustado por flexbox */
+    background-color: #2e3639;
+    color: #e0e0e0;
+    padding: 40px 20px 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 .footer-content {
-    display: flex; /* Habilita Flexbox */
-    flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha em telas menores */
-    justify-content: space-around; /* Distribui as colunas com espaço entre elas */
-    max-width: 1200px; /* Limita a largura máxima do conteúdo do footer */
-    margin: 0 auto 30px; /* Centraliza o conteúdo e adiciona margem inferior */
-    gap: 30px; /* Espaçamento entre as colunas */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    gap: 30px;
 }
 
 .footer-column {
-    flex: 1; /* Permite que as colunas cresçam e encolham */
-    min-width: 280px; /* Largura mínima para cada coluna antes de quebrar */
-    padding: 15px; /* Padding interno para cada coluna */
-    text-align: center; /* Centraliza o texto dentro de cada coluna */
+    flex: 1;
+    min-width: 280px;
+    padding: 15px;
+    text-align: center;
 }
 
 .footer-column h3 {
-    color: #ffffff; /* Cor branca para os títulos das colunas */
-    font-size: 1.2em; /* Tamanho da fonte dos títulos */
-    margin-bottom: 15px; /* Espaçamento abaixo dos títulos */
+    color: #ffffff;
+    font-size: 1.2em;
+    margin-bottom: 15px;
     font-weight: bold;
 }
 
 .footer-column p {
-    font-size: 0.95em; /* Tamanho da fonte para o texto dos endereços/telefones */
-    line-height: 1.6; /* Espaçamento entre linhas */
-    margin-bottom: 10px; /* Espaçamento entre parágrafos */
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 10px;
 }
 
 .footer-column p a {
-    color: #66cc66; /* Cor verde para os telefones/links, conforme a imagem */
-    text-decoration: none; /* Remove sublinhado dos links */
-    transition: color 0.3s ease; /* Transição suave para hover */
+    color: #66cc66;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 .footer-column p a:hover {
-    color: #44aa44; /* Cor mais escura no hover */
+    color: #44aa44;
 }
 
 .footer-button {
-    display: inline-block; /* Permite padding e margem */
-    background-color: transparent; /* Fundo transparente */
-    color: #ffffff; /* Cor do texto branco */
-    border: 1px solid #ffffff; /* Borda branca */
-    padding: 10px 25px; /* Padding para o botão */
-    border-radius: 25px; /* Borda arredondada */
-    text-decoration: none; /* Remove sublinhado */
-    font-size: 0.9em; /* Tamanho da fonte */
-    margin-top: 15px; /* Espaçamento superior */
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Transição suave para hover */
+    display: inline-block;
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .footer-button:hover {
-    background-color: #ffffff; /* Fundo branco no hover */
-    color: #2e3639; /* Texto escuro no hover */
-    border-color: #ffffff; /* Borda branca no hover */
+    background-color: #ffffff;
+    color: #2e3639;
+    border-color: #ffffff;
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória fina */
-    padding-top: 20px; /* Espaçamento acima da linha */
-    margin-top: 30px; /* Espaçamento superior da div (da linha para cima) */
-    font-size: 0.8em; /* Tamanho da fonte para a informação legal */
-    color: #a0a0a0; /* Cor do texto mais clara para a informação legal */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: #a0a0a0;
 }
 
-/* --- Adaptações para o FOOTER no Mobile --- */
 @media (max-width: 768px) {
     .footer-content {
-        flex-direction: column; /* Colunas empilhadas no mobile */
-        gap: 20px; /* Reduz o espaçamento entre colunas empilhadas */
-        margin-bottom: 20px; /* Reduz margem inferior no mobile */
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
     }
 
     .footer-column {
-        min-width: unset; /* Remove largura mínima, ocupa a largura disponível */
-        padding: 10px; /* Reduz padding das colunas */
+        min-width: unset;
+        padding: 10px;
     }
 
     .footer-column h3 {
-        font-size: 1.1em; /* Ajusta o tamanho do título */
+        font-size: 1.1em;
         margin-bottom: 10px;
     }
 
     .footer-column p {
-        font-size: 0.9em; /* Ajusta o tamanho do texto */
+        font-size: 0.9em;
     }
 
     .footer-button {
-        padding: 8px 20px; /* Ajusta padding do botão */
-        font-size: 0.85em; /* Ajusta fonte do botão */
+        padding: 8px 20px;
+        font-size: 0.85em;
     }
 
     .footer-bottom {

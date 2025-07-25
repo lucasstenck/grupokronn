@@ -1,0 +1,599 @@
+/* style.css */
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and general styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Header styles */
+header {
+    background-color: #ffffff;
+    padding: 19px 10px; /* AJUSTADO: Reduzido o padding horizontal para as divs laterais ficarem mais no canto */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo styling */
+.logo img {
+    width: 150px;
+    height: auto;
+}
+
+/* Navigation menu container */
+nav {
+    display: flex;
+    justify-content: space-between; /* Distribui logo, menu e botão igualmente */
+    align-items: center; /* Alinha verticalmente */
+    width: 100%;
+    max-width: 1800px; /* AJUSTADO: Limita a largura máxima da nav para centralizar e permitir que as laterais cheguem mais perto das bordas */
+    margin: 0 auto; /* Centraliza a nav na página */
+}
+
+/* Container para os links principais do menu */
+.main-nav-links {
+    display: flex;
+    align-items: center;
+}
+
+/* Menu list */
+.menu {
+    list-style-type: none;
+    display: flex; /* Alinha os itens do menu horizontalmente */
+    gap: 30px; /* AJUSTADO: Aumentado o espaçamento entre os itens do menu */
+    align-items: center; /* Alinha verticalmente os itens do menu */
+}
+
+/* Menu links */
+.menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 17px;
+    padding: 10px 15px;
+    display: block;
+}
+
+/* Submenu container */
+.submenu {
+    position: relative;
+}
+
+.submenu .submenu-items {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    list-style-type: none;
+    padding: 10px 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 100; /* Garante que o submenu fique acima de outros elementos */
+    min-width: 220px; /* Largura mínima para o submenu */
+}
+
+.submenu.active-submenu .submenu-items {
+    display: block;
+}
+
+.submenu:hover .submenu-items {
+    display: block;
+}
+
+.submenu-items li {
+    padding: 8px 15px;
+}
+
+.submenu-items li a {
+    color: #333;
+    font-size: 14px;
+    white-space: nowrap; /* Evita quebra de linha em itens longos do submenu */
+}
+
+/* Submenu arrow */
+.arrow {
+    margin-left: 5px;
+}
+
+/* Client access button wrapper */
+.client-access-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+/* Client access button */
+.client-access {
+    list-style-type: none; /* Remove o ponto da lista */
+}
+
+.client-access a {
+    background-color: #0073e6;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 17px;
+    text-decoration: none;
+    white-space: nowrap; /* Evita quebra de linha no botão */
+}
+
+/* Hover effects */
+.menu a:hover, .submenu-items li a:hover {
+    background-color: #f1f1f1;
+    color: #0073e6;
+}
+
+.client-access a:hover {
+    background-color: #005bb5;
+}
+
+/* Hamburger button (invisível em desktop) */
+.hamburger {
+    display: none; /* Esconde o botão de hambúrguer por padrão em telas maiores */
+    cursor: pointer;
+    font-size: 30px;
+    color: #333;
+}
+
+
+
+/* Mobile design (Aplica-se a telas com largura máxima de 768px) */
+@media (max-width: 768px) {
+    /* Mostra o botão de hambúrguer */
+    .hamburger {
+        display: flex; /* Mostra o hambúrguer em mobile */
+        margin-left: auto; /* Empurra para a direita */
+    }
+
+    /* Esconde os links principais do menu por padrão em mobile */
+    .main-nav-links {
+        display: none; /* ESCONDE POR PADRÃO */
+        flex-direction: column; /* Itens do menu empilhados verticalmente */
+        width: 100%; /* Ocupa a largura total */
+        position: absolute; /* Posição absoluta para sobrepor o conteúdo */
+        top: 80px; /* Ajusta para abaixo do header (altura do header + padding) */
+        left: 0;
+        background-color: #ffffff;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        z-index: 99; /* Garante que fique acima de outros elementos */
+        padding: 20px 0;
+        align-items: center; /* Centraliza os itens verticalmente */
+    }
+
+    /* Mostra o menu quando ativo */
+    .main-nav-links.active { /* A classe 'active' será adicionada pelo JavaScript */
+        display: flex; /* MOSTRA QUANDO A CLASSE 'ACTIVE' ESTÁ PRESENTE */
+    }
+
+    .menu {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px; /* Reduz o espaçamento em mobile */
+    }
+
+    .menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+     .submenu.active-submenu .submenu-items {
+        display: block; /* Mostra o submenu quando a classe 'active-submenu' está no pai */
+    }
+
+    /* Ajustes para submenus em mobile */
+   .submenu .submenu-items {
+        position: static; /* Remove o posicionamento absoluto em mobile */
+        width: 100%; /* Ocupa a largura total do menu pai */
+        box-shadow: none; /* Remove sombra para submenus em mobile */
+        background-color: #f9f9f9; /* Fundo ligeiramente diferente para subitens */
+        padding: 0; /* Remove padding extra */
+        display: none; /* Escondido por padrão, apenas JS vai mostrar */
+    }
+
+    .submenu-items li a {
+        padding: 8px 0; /* Ajusta padding para links de subitem */
+        font-size: 13px; /* Ajusta fonte do subitem */
+    }
+
+    /* Em mobile, o botão de acesso ao cliente também deve estar dentro do menu vertical */
+    .client-access-wrapper {
+        margin-top: 15px; /* Adiciona margem superior para separar do menu */
+        width: 100%;
+        justify-content: center; /* Centraliza o botão em mobile */
+    }
+
+    .client-access {
+        width: 100%;
+        text-align: center;
+    }
+
+    .submenu:hover .submenu-items {
+        display: none; /* Desativa o hover em mobile para evitar comportamento indesejado */
+    }
+    
+}
+
+
+#carousel {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.carousel-container {
+    display: flex;
+}
+
+/* Estilo para as imagens do carrossel */
+.carousel-images {
+    display: flex;
+    width: 300%; /* Ajustado para exibir 3 imagens por vez */
+    cursor: grab; /* Adiciona o cursor de mão aberta */
+}
+
+.carousel-images:active {
+    cursor: grabbing; /* Opcional: muda para mão fechada quando clicado/arrastando */
+}
+
+/* Estilo das imagens */
+.carousel-slide {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0; /* Impede que as imagens encolham */
+}
+
+/* Estilos dos botões de navegação */
+button {
+    position: absolute;
+    top: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    z-index: 10;
+    transform: translateY(-50%);
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    #carousel {
+        height: 60vh; /* Ajusta a altura para caber melhor em telas pequenas */
+    }
+
+    .carousel-images {
+        width: 300%; /* Para 3 imagens, podemos continuar com a mesma proporção */
+    }
+
+    .carousel-slide {
+        height: 60vh; /* Ajusta a altura das imagens */
+    }
+
+    button {
+        padding: 10px; /* Ajusta o tamanho dos botões em telas menores */
+    }
+}
+
+@media (max-width: 480px) {
+    #carousel {
+        height: 50vh; /* Ajusta ainda mais a altura para telas muito pequenas */
+    }
+
+    .carousel-images {
+        width: 300%; /* Para 3 imagens ainda */
+    }
+
+    .carousel-slide {
+        height: 50vh; /* Ajusta a altura das imagens */
+    }
+
+    button {
+        padding: 8px; /* Reduz o tamanho dos botões para telas muito pequenas */
+    }
+}
+
+/* --- Nova Seção de Serviços --- */
+#services-section {
+    padding: 60px 20px;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+#services-section h2 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout responsivo de grid */
+    gap: 30px; /* Espaçamento entre os itens */
+    max-width: 1200px;
+    margin: 0 auto; /* Centraliza o grid */
+}
+
+.service-item {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-decoration: none; /* Remove sublinhado do link */
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transição suave para hover */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 25px; /* Aumentado para dar mais espaço vertical ao bloco */
+    overflow: hidden; /* Garante que a imagem não vaze */
+}
+
+.service-item:hover {
+    transform: translateY(-10px); /* Levanta o item no hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Sombra mais intensa no hover */
+}
+
+.service-image {
+    width: 100%; /* Imagem ocupa a largura total do item */
+    height: 300px; /* **Altura aumentada para as imagens em telas maiores** */
+    background-size: cover;
+    background-position: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-bottom: 15px; /* Espaço entre imagem e título */
+    transition: transform 0.5s ease-in-out; /* Transição para o efeito de zoom na imagem */
+}
+
+.service-item:hover .service-image {
+    transform: scale(1.05); /* Zoom na imagem no hover */
+}
+
+.service-item h3 {
+    font-size: 1.4em;
+    margin: 0 15px; /* Margem horizontal para o título */
+    line-height: 1.3;
+    min-height: 3.9em; /* Garante que títulos com 2 ou 3 linhas ocupem o mesmo espaço */
+    display: flex; /* Para centralizar verticalmente se necessário */
+    align-items: center; /* Para centralizar verticalmente */
+    justify-content: center; /* Para centralizar horizontalmente */
+    text-align: center;
+}
+
+
+/* --- Adaptações para a Nova Seção de Serviços no Mobile --- */
+@media (max-width: 768px) {
+    #services-section {
+        padding: 40px 15px; /* Reduz o padding para mobile */
+    }
+
+    #services-section h2 {
+        font-size: 2em; /* Reduz o tamanho do título principal */
+        margin-bottom: 30px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr; /* Uma coluna por item em telas pequenas */
+        gap: 20px; /* Reduz o espaçamento */
+    }
+
+    .service-item {
+        margin: 0 auto; /* Centraliza o item */
+        max-width: 300px; /* Limita a largura máxima do item para não ficar muito largo */
+    }
+
+    .service-image {
+        height: 200px; /* **Altura aumentada para as imagens em mobile** */
+    }
+
+    .service-item h3 {
+        font-size: 1.2em; /* Reduz o tamanho da fonte do título do serviço */
+        min-height: auto; /* Remove a altura mínima forçada para títulos */
+        margin: 0 10px;
+    }
+}
+
+/* --- Nova Seção de Banner com uma Imagem --- */
+#banner-section {
+    text-align: center; /* Centraliza o conteúdo dentro da seção */
+    padding: 20px; /* Adiciona um padding geral para espaço interno */
+    margin-top: 50px; /* Margem no topo para espaçamento da seção anterior */
+    margin-bottom: 50px; /* Margem na parte inferior para espaçamento da próxima seção */
+    background-color: #f5f5f5; /* Garante que o fundo seja o mesmo da página */
+}
+
+.banner-image-link {
+    display: block; /* Faz com que o link se comporte como um bloco para centralização e largura */
+    max-width: 900px; /* Limita a largura máxima da imagem para não ser muito grande em telas largas */
+    margin: 0 auto; /* Centraliza o bloco do link (e, portanto, a imagem) horizontalmente */
+    overflow: hidden; /* Garante que a borda arredondada funcione corretamente */
+
+}
+
+.banner-image-link:hover {
+    transform: translateY(-5px); /* Efeito de "levantar" o banner no hover */
+}
+
+.banner-image-link img {
+    width: 100%; /* Faz a imagem preencher a largura total do seu contêiner (o link) */
+    height: auto; /* Mantém a proporção da imagem para evitar distorção */
+    display: block; /* Remove o espaço extra que navegadores podem adicionar abaixo de imagens */
+}
+
+/* --- Adaptações para a Nova Seção de Banner no Mobile --- */
+@media (max-width: 768px) {
+    #banner-section {
+        padding: 20px 10px; /* Reduz o padding horizontal no mobile */
+        margin-top: 30px; /* Menos margem superior no mobile */
+        margin-bottom: 30px; /* Menos margem inferior no mobile */
+    }
+
+    .banner-image-link {
+        border-radius: 5px; /* Reduz ligeiramente o arredondamento da borda no mobile */
+    }
+}
+
+/* --- Nova Seção de Imagem Única --- */
+#single-image-section {
+    width: 100%;
+    padding: 0;
+    margin: 0; /* Alterado de '60px 0' para '0' para remover o espaçamento inferior e superior dessa seção */
+    background-color: #f5f5f5;
+    overflow: hidden;
+}
+
+#single-image-section img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* --- Adaptações para a Nova Seção de Imagem Única no Mobile --- */
+@media (max-width: 768px) {
+    #single-image-section {
+        margin: 0; /* Alterado de '40px 0' para '0' para remover o espaçamento inferior e superior dessa seção em mobile */
+    }
+
+    #single-image-section img {
+        border-radius: 0;
+    }
+}
+
+
+/* --- FOOTER --- */
+#main-footer {
+    background-color: #2e3639;
+    color: #e0e0e0;
+    padding: 40px 20px 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 0; /* Adicionado ou alterado para 0 para remover o espaçamento superior do footer */
+}
+
+/* --- FOOTER --- */
+#main-footer {
+    background-color: #2e3639; /* Cor de fundo escura conforme a imagem */
+    color: #e0e0e0; /* Cor do texto claro */
+    padding: 40px 20px 20px; /* Padding interno: topo, laterais, inferior */
+    font-family: Arial, sans-serif; /* Fonte para o footer */
+    text-align: center; /* Centraliza o texto por padrão, ajustado por flexbox */
+}
+
+.footer-content {
+    display: flex; /* Habilita Flexbox */
+    flex-wrap: wrap; /* Permite que as colunas quebrem para a próxima linha em telas menores */
+    justify-content: space-around; /* Distribui as colunas com espaço entre elas */
+    max-width: 1200px; /* Limita a largura máxima do conteúdo do footer */
+    margin: 0 auto 30px; /* Centraliza o conteúdo e adiciona margem inferior */
+    gap: 30px; /* Espaçamento entre as colunas */
+}
+
+.footer-column {
+    flex: 1; /* Permite que as colunas cresçam e encolham */
+    min-width: 280px; /* Largura mínima para cada coluna antes de quebrar */
+    padding: 15px; /* Padding interno para cada coluna */
+    text-align: center; /* Centraliza o texto dentro de cada coluna */
+}
+
+.footer-column h3 {
+    color: #ffffff; /* Cor branca para os títulos das colunas */
+    font-size: 1.2em; /* Tamanho da fonte dos títulos */
+    margin-bottom: 15px; /* Espaçamento abaixo dos títulos */
+    font-weight: bold;
+}
+
+.footer-column p {
+    font-size: 0.95em; /* Tamanho da fonte para o texto dos endereços/telefones */
+    line-height: 1.6; /* Espaçamento entre linhas */
+    margin-bottom: 10px; /* Espaçamento entre parágrafos */
+}
+
+.footer-column p a {
+    color: #66cc66; /* Cor verde para os telefones/links, conforme a imagem */
+    text-decoration: none; /* Remove sublinhado dos links */
+    transition: color 0.3s ease; /* Transição suave para hover */
+}
+
+.footer-column p a:hover {
+    color: #44aa44; /* Cor mais escura no hover */
+}
+
+.footer-button {
+    display: inline-block; /* Permite padding e margem */
+    background-color: transparent; /* Fundo transparente */
+    color: #ffffff; /* Cor do texto branco */
+    border: 1px solid #ffffff; /* Borda branca */
+    padding: 10px 25px; /* Padding para o botão */
+    border-radius: 25px; /* Borda arredondada */
+    text-decoration: none; /* Remove sublinhado */
+    font-size: 0.9em; /* Tamanho da fonte */
+    margin-top: 15px; /* Espaçamento superior */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Transição suave para hover */
+}
+
+.footer-button:hover {
+    background-color: #ffffff; /* Fundo branco no hover */
+    color: #2e3639; /* Texto escuro no hover */
+    border-color: #ffffff; /* Borda branca no hover */
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha divisória fina */
+    padding-top: 20px; /* Espaçamento acima da linha */
+    margin-top: 30px; /* Espaçamento superior da div (da linha para cima) */
+    font-size: 0.8em; /* Tamanho da fonte para a informação legal */
+    color: #a0a0a0; /* Cor do texto mais clara para a informação legal */
+}
+
+/* --- Adaptações para o FOOTER no Mobile --- */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column; /* Colunas empilhadas no mobile */
+        gap: 20px; /* Reduz o espaçamento entre colunas empilhadas */
+        margin-bottom: 20px; /* Reduz margem inferior no mobile */
+    }
+
+    .footer-column {
+        min-width: unset; /* Remove largura mínima, ocupa a largura disponível */
+        padding: 10px; /* Reduz padding das colunas */
+    }
+
+    .footer-column h3 {
+        font-size: 1.1em; /* Ajusta o tamanho do título */
+        margin-bottom: 10px;
+    }
+
+    .footer-column p {
+        font-size: 0.9em; /* Ajusta o tamanho do texto */
+    }
+
+    .footer-button {
+        padding: 8px 20px; /* Ajusta padding do botão */
+        font-size: 0.85em; /* Ajusta fonte do botão */
+    }
+
+    .footer-bottom {
+        padding-top: 15px;
+        margin-top: 20px;
+        font-size: 0.75em;
+    }
+}

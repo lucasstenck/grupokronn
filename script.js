@@ -2,15 +2,8 @@ function toggleMenu() {
     document.querySelector('.main-nav-links').classList.toggle('active');
 }
 
-// NOVO: Função para alternar submenus
+// Função para alternar submenus
 document.addEventListener('DOMContentLoaded', () => {
-    // Código existente do carrossel
-    // ...
-    carouselImages.style.transform = `translateX(-${currentIndex * 100}%)`;
-    startSlideShow();
-    addDragListeners(); // Adiciona os listeners de arraste ao carrossel
-    // ... Fim do código existente do carrossel
-
     // Adiciona event listener para os submenus
     const submenuParents = document.querySelectorAll('.submenu > a'); // Seleciona apenas os links diretos dentro de .submenu
 
@@ -23,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const parentSubmenu = this.closest('.submenu');
 
             // Verifica se está em modo mobile (media query)
-            // Se a largura da tela for menor ou igual a 768px
             if (window.matchMedia("(max-width: 768px)").matches) {
                 // Fecha qualquer outro submenu aberto antes de abrir este
                 document.querySelectorAll('.submenu.active-submenu').forEach(otherSubmenu => {
@@ -34,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Alterna a classe 'active-submenu' no <li>.submenu
                 parentSubmenu.classList.toggle('active-submenu');
+            } else {
+                // Em telas maiores, o hover já cuida do submenu, então não fazemos nada
             }
-            // Em desktop, o comportamento de hover do CSS já cuida disso,
-            // então não precisamos de JS para o desktop.
         });
     });
 
-    // Opcional: Fechar o menu e/ou submenus se clicar fora
+    // Código para fechar o menu ao clicar fora
     document.addEventListener('click', function(event) {
         const mainNavLinks = document.querySelector('.main-nav-links');
         const hamburger = document.querySelector('.hamburger');

@@ -41,10 +41,6 @@ nav {
     align-items: center;
 }
 
-.main-nav-links .submenu:hover .submenu-items {
-    display: block; /* Ou display: flex; */
-}
-
 /* Menu list */
 .menu {
     list-style-type: none;
@@ -80,11 +76,11 @@ nav {
     min-width: 220px; /* Largura mínima para o submenu */
 }
 
-.submenu.active-submenu .submenu-items {
-    display: block;
+.submenu .submenu-items {
+    display: none;
 }
 
-.submenu:hover .submenu-items {
+.submenu.active-submenu .submenu-items {
     display: block;
 }
 
@@ -142,7 +138,141 @@ nav {
     color: #333;
 }
 
+@media (min-width: 769px) and (max-width: 1135px) {
+    /* Esconde o hambúrguer nessa faixa */
+    .hamburger {
+        display: none;
+    }
 
+    /* Ajustes para o container principal da navegação */
+    nav {
+        display: flex; /* Garante que 'nav' seja um container flex */
+        flex-direction: column; /* ALTERADO: Organiza logo, menu e botão em coluna */
+        align-items: center; /* Centraliza horizontalmente os itens filhos de 'nav' */
+        gap: 15px; /* Adiciona espaçamento vertical entre os filhos diretos de 'nav' */
+
+        padding: 0 15px; /* Adiciona um padding lateral para não colar nas bordas */
+        max-width: 100%; /* Garante que não exceda a largura da viewport */
+        box-sizing: border-box; /* Inclui padding na largura total */
+    }
+
+    /* Ajuste para o container do logo, para que o logo possa ser centralizado */
+    .nav-left {
+        width: 100%; /* Ocupa a largura total para ajudar na centralização do logo */
+        text-align: center; /* Centraliza o logo dentro de nav-left */
+    }
+
+    /* Exibe o menu principal */
+    .main-nav-links {
+        display: flex; /* Garante que o menu principal seja flexível */
+        flex-direction: column; /* ALTERADO: Itens do menu principal agora em coluna */
+        position: static; /* Remove o posicionamento absoluto do mobile */
+        width: 100%; /* Ocupa a largura total disponível dentro do 'nav' */
+        background-color: transparent; /* Remove o fundo branco e sombra do mobile */
+        box-shadow: none;
+        z-index: auto;
+        padding: 10px 0; /* Adiciona um pequeno padding vertical */
+        align-items: center; /* Centraliza os itens do menu (ul.menu) horizontalmente */
+        flex-grow: 0; /* Não cresce desnecessariamente */
+        justify-content: center; /* Centraliza o conteúdo do menu na área disponível */
+        flex-shrink: 1; /* Permite que o menu encolha se precisar */
+        min-width: 0; /* Importante para flex-items em contêineres flexíveis */
+        overflow-x: hidden; /* Garante que nada vaze horizontalmente do container principal do menu */
+    }
+
+    /* Força a remoção da classe 'active' se ela estiver presente por algum motivo */
+    .main-nav-links.active {
+        display: flex; /* Apenas para garantir que não haja conflito */
+    }
+
+    /* Ajusta o espaçamento dos itens do menu */
+    .menu {
+        flex-direction: column; /* ALTERADO: Itens da lista (li) agora em coluna */
+        gap: 5px; /* Espaçamento menor entre os itens do menu (agora empilhados) */
+        width: 100%; /* Ocupa a largura total para que os links se centralizem */
+        flex-wrap: nowrap; /* Impede que os itens do menu quebrem (redundante com column, mas bom manter) */
+        overflow-x: hidden; /* Impede rolagem horizontal para o menu individual */
+        padding: 0; /* Remove padding extra */
+        list-style: none; /* Garante que não apareçam marcadores de lista */
+    }
+
+    /* Remove as barras de rolagem se houverem */
+    .menu::-webkit-scrollbar {
+        display: none;
+    }
+    .menu {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;  /* IE and Edge */
+    }
+
+    /* Ajusta o padding dos links do menu */
+    .menu a {
+        padding: 8px 0; /* Ajusta o padding para os links empilhados */
+        font-size: 15px; /* Mantém um tamanho de fonte legível */
+        white-space: nowrap; /* Impede que o texto quebre dentro do link */
+        text-align: center; /* Centraliza o texto dentro de cada link */
+        width: 100%; /* Faz o link ocupar a largura total do item */
+        display: block; /* Garante que o padding e width funcionem corretamente */
+    }
+
+    /* Garante que o submenu continue escondido por padrão e só apareça com a classe */
+    .submenu .submenu-items {
+        display: none;
+        position: static; /* ALTERADO: Posicionamento estático em coluna para submenus */
+        width: 100%; /* Ocupa a largura total do item pai */
+        background-color: #f9f9f9; /* Um fundo ligeiramente diferente para subitens */
+        box-shadow: none; /* Remove sombra para submenus internos */
+        padding: 5px 0; /* Padding interno para subitens */
+        list-style: none; /* Remove marcadores de lista para submenus */
+        text-align: left; /* Alinha o texto do submenu à esquerda */
+    }
+
+    /* Submenu visível apenas com a classe active-submenu (controle por clique/JS) */
+    .submenu.active-submenu .submenu-items {
+        display: block;
+    }
+    .submenu.active-submenu .submenu-items li a {
+        padding-left: 25px; /* Indenta os itens do submenu para mostrar que são sub-itens */
+        text-align: left; /* Garante alinhamento à esquerda para sub-itens */
+        font-size: 14px; /* Ajusta tamanho da fonte dos sub-itens */
+    }
+
+
+    /* Ajusta o botão de acesso ao cliente */
+    .client-access-wrapper {
+        margin-top: 15px; /* Adiciona uma margem superior para separar do menu */
+        width: 100%; /* Ocupa a largura total */
+        display: flex; /* Torna-o um container flex para centralizar o botão */
+        justify-content: center; /* Centraliza o botão */
+        flex-shrink: 0; /* Impede que o botão encolha */
+        padding: 0; /* Remove padding extra */
+    }
+
+    .client-access {
+        padding: 0; /* Remove padding da UL */
+        list-style: none; /* Remove marcadores de lista */
+        width: 100%; /* Ocupa a largura total para que o botão possa ser centralizado */
+        text-align: center; /* Centraliza o conteúdo da UL */
+    }
+
+    .client-access a {
+        padding: 10px 20px; /* Ajusta o padding do botão para ser mais visível */
+        font-size: 16px; /* Ajusta a fonte do botão */
+        white-space: nowrap; /* Impede que o texto do botão quebre */
+        display: inline-block; /* Permite que o padding e width funcionem, mas não ocupe 100% da largura do pai */
+        max-width: 90%; /* Limita a largura máxima do botão para não vazar */
+    }
+}
+
+
+
+@media (min-width: 1100px) {
+    .submenu:hover .submenu-items {
+        display: block; /* Exibe o submenu no hover */
+    }
+
+    
+}
 
 /* Mobile design (Aplica-se a telas com largura máxima de 768px) */
 @media (max-width: 768px) {
@@ -165,10 +295,6 @@ nav {
         z-index: 99; /* Garante que fique acima de outros elementos */
         padding: 20px 0;
         align-items: center; /* Centraliza os itens verticalmente */
-    }
-
-.main-nav-links .submenu:hover .submenu-items {
-        display: block; /* ou display: flex; */
     }
 
     /* Mostra o menu quando ativo */
@@ -217,6 +343,7 @@ nav {
         width: 100%;
         text-align: center;
     }
+    
     
 }
 

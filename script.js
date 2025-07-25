@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.querySelector('.hamburger');
     const mainNavLinks = document.querySelector('.main-nav-links');
     const submenuLinks = document.querySelectorAll('.submenu > a');
-    
+
     // 1. Lógica para o botão Hamburguer (abrir/fechar menu principal)
     hamburger.addEventListener('click', (event) => {
         event.stopPropagation(); // Impede que o clique no hamburger feche tudo imediatamente
